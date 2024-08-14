@@ -6,7 +6,7 @@ The primary reason for releasing this is to help you with your homework, and of 
 
 ### Build
 - The driver was developed using WDK 1903, SDK 1903, and Visual Studio 2019
-- After installing these tools, switch the build configuration to release mode and disable `Treat Warnings as Errors` in Visual Studio.
+- After installing these, switch the build configuration to release mode and disable `Treat Warnings as Errors` in Visual Studio.
 
 
 ### About the driver
