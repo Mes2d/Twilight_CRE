@@ -1,0 +1,89 @@
+;
+; Twilight_CRE.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Sample ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=Twilight_CRE.cat
+DriverVer = 08/14/2024,9.0.28.257
+
+[DestinationDirs]
+DefaultDestDir = 12
+Twilight_CRE_Device_CoInstaller_CopyFiles = 11
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+Twilight_CRE.sys  = 1,,
+;
+
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64
+
+[Standard.NTamd64]
+%Twilight_CRE.DeviceDesc%=Twilight_CRE_Device, Root\Twilight_CRE ; TODO: edit hw-id
+
+[Twilight_CRE_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+Twilight_CRE.sys
+
+;-------------- Service installation
+[Twilight_CRE_Device.NT.Services]
+AddService = Twilight_CRE,%SPSVCINST_ASSOCSERVICE%, Twilight_CRE_Service_Inst
+
+; -------------- Twilight_CRE driver install sections
+[Twilight_CRE_Service_Inst]
+DisplayName    = %Twilight_CRE.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\Twilight_CRE.sys
+
+;
+;--- Twilight_CRE_Device Coinstaller installation ------
+;
+
+[Twilight_CRE_Device.NT.CoInstallers]
+AddReg=Twilight_CRE_Device_CoInstaller_AddReg
+CopyFiles=Twilight_CRE_Device_CoInstaller_CopyFiles
+
+[Twilight_CRE_Device_CoInstaller_AddReg]
+;
+
+
+[Twilight_CRE_Device_CoInstaller_CopyFiles]
+;
+
+
+[Twilight_CRE_Device.NT.Wdf]
+KmdfService =  Twilight_CRE, Twilight_CRE_wdfsect
+[Twilight_CRE_wdfsect]
+KmdfLibraryVersion = 1.15
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+ClassName="Samples" ; TODO: edit ClassName
+DiskName = "Twilight_CRE Installation Disk"
+Twilight_CRE.DeviceDesc = "Twilight_CRE Device"
+Twilight_CRE.SVCDESC = "Twilight_CRE Service"
